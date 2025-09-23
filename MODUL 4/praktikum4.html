@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing</title>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        $("#cetak").click(function(){
+            var teks = $("#teks").val()
+            var warna = $("#warna").val()
+            var ukuran = $("#ukuran").val()
+            var elemenBaru = "<p style='color:" + warna + "; font-size:" + ukuran + "pt;'>" + teks + "</p>";
+            $(this).after(elemenBaru);
+             
+        })
+    })
+    </script>
+</head>
+<body>
+    <label for="#teks">Text</label>
+    <input type="text" id="teks" required> 
+    <label for="#warna">Color</label><select name="Color" id="warna">
+        <option value="blue">Biru</option>
+        <option value="red">Merah</option>
+        <option value="black">Hitam</option>
+        <option value="green">Hijau</option>
+    </select>
+    <label for="#ukuran">Size</label><select name="Size" id="ukuran">
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="20">20</option>
+    </select>
+    <button id="cetak">Cetak</button>
+</body>
+</html>

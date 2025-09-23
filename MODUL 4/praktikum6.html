@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Tes</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        form div { margin-bottom: 15px; }
+        label { display: inline-block; margin-bottom: 5px; }
+        
+        label.error {
+            color: #d9534f;
+            font-size: 14px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        #tglLahirErrorContainer .error {
+            display: block;
+            margin-left: 0;
+            margin-top: 5px;
+        }
+
+        input.error, select.error, textarea.error {
+            border: 2px solid #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <form id="form">
+        <div>
+            <label for="nama">Nama</label> <br>
+            <input type="text" name="nama" id="nama">
+        </div>
+        <div>
+            <label for="nim">Nim</label><br>
+            <input type="text" name="nim" id="nim">
+        </div>
+        <div>
+            <label for="telp">Telepon</label> <br>
+            <input type="text" name="telp" id="telp">
+        </div>
+        <div>
+            <label for="kota">Kota</label><br>
+            <input type="text" name="kota" id="kota">
+        </div>
+            <label>Tanggal Lahir:</label><br>
+            <div class="date-group">
+                <input type="text" id="tanggal" name="tanggal" placeholder="Tgl" maxlength="2" inputmode="numeric">
+                <span>/</span>
+                <input type="text" id="bulan" name="bulan" placeholder="Bln" maxlength="2" inputmode="numeric">
+                <span>/</span>
+                <input type="text" id="tahun" name="tahun" placeholder="Thn" maxlength="4" inputmode="numeric">
+            </div>
+            <div id="tglLahirErrorContainer"></div>
+        <div>
+            <label for="pendidikan">Pendidikan</label><br>
+            <select name="pendidikan" id="pendidikan">
+                <option value="" disabled selected>--Pilih Pendidikan--</option>
+                <option value="SD">SD</option>
+                <option value="SMP">SMP</option>
+                <option value="SMA">SMA</option>
+                <option value="D3">D3</option>
+                <option value="S1">S1</option>
+            </select>
+        </div>
+        <div>
+            <label for="pengalaman">Pengalaman</label> <br>
+            <textarea name="pengalaman" id="pengalaman" rows="6" cols="60"></textarea>
+        </div>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="jquery.validate.min.js"></script>
+    <script src="additional-methods.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $.validator.addMethod("validDate", function(value, element) {
+                var tanggal = parseInt($("#tanggal").val());
+                var bulan = parseInt($("#bulan").val());
+                var tahun = parseInt($("#tahun").val());
+
+                if (isNaN(tanggal) || isNaN(bulan) || isNaN(tahun)) {
+                    return true;
+                }
+
+                var d = new Date(tahun, bulan - 1, tanggal);
+                return d.getFullYear() === tahun && d.getMonth() === (bulan - 1) && d.getDate() === tanggal;
+            }, "Kombinasi tanggal, bulan, dan tahun tidak valid.");
+            $("#form").validate({
+                rules: {
+                    nama: {
+                        required: true,
+                        pattern: /^[a-zA-Z\s]+$/ 
+                    },
+                    nim: {
+                        required: true,
+                        digits:true,
+                        minlength: 12,
+                    },
+                    telp:{
+                        required: true,
+                        digits: true,
+                        minlength:6,
+                        maxlength: 8
+                    },
+                    kota:{
+                        required: true,
+                        pattern: /^[a-zA-Z]+$/
+                    },
+                    tanggal: {
+                        required: true, digits: true, range: [1, 31] },
+                    bulan: {
+                        required: true, 
+                        digits: true, 
+                        range: [1, 12] 
+                    },
+                    tahun: {
+                        required: true, 
+                        digits: true, 
+                        range: [1990, 2025], 
+                        validDate: true 
+                    },
+                    pendidikan:{
+                        required:true
+                    },
+                    pengalaman:{
+                        required: true
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") === "tanggal" || element.attr("name") === "bulan" || element.attr("name") === "tahun") {
+                        // Jika input adalah tgl/bln/thn, tempatkan error di container bawah
+                        error.appendTo("#tglLahirErrorContainer");
+                    } else {
+                        // Jika tidak, tempatkan error setelah input (di sebelahnya)
+                        error.insertAfter(element);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

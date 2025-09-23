@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jquery</title>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#ambil").click(function(){
+            var pilihanJurusan = $("#Jurusan").val()
+            if( $("#mycheckbox").is(":checked") ){
+                $(this).after("<p>Departemen yang dipilih: <b style='color:red'>" + pilihanJurusan + "</b></p>");
+            }else{
+                $(this).after("<p>Departemen yang dipilih: <b style='color:black'>" + pilihanJurusan + "</b></p>");
+            }
+        })
+    })
+    </script>
+</head>
+<body>
+    Pilih Departemen
+    <select name="Jurusan" id="Jurusan">
+        <option value="DTEI">DTEI</option>
+        <option value="DTMI">DTMI</option>
+        <option value="DTSP">DTSP</option>
+        <option value="DPTBB">DPTBB</option>
+    </select>
+    <br>
+    <input type="checkbox" id="mycheckbox" value="Merahkan?">
+    <label for="mycheckbox">Centang untuk memerahkan font</label>
+    <button id="ambil">cetak</button> <br>
+</body>
+</html>
